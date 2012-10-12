@@ -252,8 +252,7 @@ def _handle_http_error(e):
 def _safe_url_load(*args, **kwargs):
     """Wrapper around urlopen that translates http errors into nicer exceptions."""
     try:
-        if kwargs:
-            kwargs['timeout'] = DEFAULT_TIMEOUT
+        args.append(DEFAULT_TIMEOUT)
         return urlopen(*args, **kwargs)
     except HTTPError, e:
         error = _handle_http_error(e)
