@@ -74,6 +74,7 @@ else:
     from urllib2 import Request
     from urllib import urlencode
 
+DEFAULT_TIMEOUT = 30
 APP_ID = '179745182062082'
 SERVER_PORT = 8080
 ACCESS_TOKEN = None
@@ -251,6 +252,8 @@ def _handle_http_error(e):
 def _safe_url_load(*args, **kwargs):
     """Wrapper around urlopen that translates http errors into nicer exceptions."""
     try:
+        if kwargs:
+            kwargs['timeout'] = DEFAULT_TIMEOUT
         return urlopen(*args, **kwargs)
     except HTTPError, e:
         error = _handle_http_error(e)
